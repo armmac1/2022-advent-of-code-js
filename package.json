@@ -1,0 +1,12 @@
+{
+  "name": "2022-advent-of-code",
+  "version": "1.0.0",
+  "description": "2022 advent of code solutions in JavaScript",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
