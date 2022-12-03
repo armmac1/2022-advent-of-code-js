@@ -47,7 +47,7 @@ const getCurrentMoveScore = (attack, counterAttack) => {
   if (DRAW_COMBINATIONS[counterAttack] === attack) return SIGN_SCORES[counterAttack] + SCORE_DRAW;
 };
 
-const getTotalScore = () => allAttacks
+const getTotalScore = allAttacks
   .map((attack, index) => getCurrentMoveScore(attack, allCounters[index]))
   .reduce((sum, cur) => sum + cur, 0);
 
@@ -58,6 +58,6 @@ const getForcedOutcomeScore = (attack, expectedOutcome) => {
   if (EXPECT_DRAW === expectedOutcome) return SCORE_DRAW + SIGN_SCORES[FORCED_DRAW_COMBINATIONS[attack]];
 };
 
-const getForcedTotalScore = () => allAttacks
+const getForcedTotalScore = allAttacks
   .map((attack, index) => getForcedOutcomeScore(attack, allCounters[index]))
   .reduce((sum, cur) => sum + cur, 0);
