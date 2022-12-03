@@ -20,3 +20,20 @@ const commonItem = Object.values(rucksacks)
 //part 1
 const priorityScoreTotal = commonItem.reduce((sum, cur) => sum + getPriorityScore(cur), 0);
 
+//part 2
+const groupOfThreeRucksacks = dataSet
+  .split('\n')
+  .reduce((sum, cur, id) => {
+    const groupIndex = Math.floor(id / 3);
+
+    if (!sum[groupIndex]) sum[groupIndex] = [];
+
+    sum[groupIndex].push(cur);
+
+    return sum;
+  }, []);
+
+const badgeItems = groupOfThreeRucksacks
+  .map(rucksacks => [...rucksacks[0]].filter(letter => (rucksacks[1].includes(letter) && rucksacks[2].includes(letter)))[0]);
+
+const sumBadgeItemScore = badgeItems.reduce((sum, cur) => sum + getPriorityScore(cur), 0);
