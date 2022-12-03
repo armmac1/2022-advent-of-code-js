@@ -28,6 +28,14 @@ const DRAW_COMBINATIONS = {
   Z: 'C',
 };
 
+const FORCED_WIN_COMBINATIONS = Object.fromEntries(Object.entries(WIN_COMBINATIONS).map(combination => combination.reverse()));
+const FORCED_LOSE_COMBINATIONS = Object.fromEntries(Object.entries(LOSE_COMBINATIONS).map(combination => combination.reverse()));
+const FORCED_DRAW_COMBINATIONS = Object.fromEntries(Object.entries(DRAW_COMBINATIONS).map(combination => combination.reverse()));
+
+const EXPECT_WIN = 'Z';
+const EXPECT_LOSE = 'X';
+const EXPECT_DRAW = 'Y';
+
 const splitAttacksAndCountersAttacks = dataSet.split('\n');
 const allAttacks = splitAttacksAndCountersAttacks.map(splitData => splitData[0]);
 const allCounters = splitAttacksAndCountersAttacks.map(splitData => splitData[2]);
@@ -44,14 +52,6 @@ const getTotalScore = () => allAttacks
   .reduce((sum, cur) => sum + cur, 0);
 
 // Part 2
-const FORCED_WIN_COMBINATIONS = Object.fromEntries(Object.entries(WIN_COMBINATIONS).map(combination => combination.reverse()));
-const FORCED_LOSE_COMBINATIONS = Object.fromEntries(Object.entries(LOSE_COMBINATIONS).map(combination => combination.reverse()));
-const FORCED_DRAW_COMBINATIONS = Object.fromEntries(Object.entries(DRAW_COMBINATIONS).map(combination => combination.reverse()));
-
-const EXPECT_WIN = 'Z';
-const EXPECT_LOSE = 'X';
-const EXPECT_DRAW = 'Y';
-
 const getForcedOutcomeScore = (attack, expectedOutcome) => {
   if (EXPECT_WIN === expectedOutcome) return SCORE_WIN + SIGN_SCORES[FORCED_WIN_COMBINATIONS[attack]];
   if (EXPECT_LOSE === expectedOutcome) return SCORE_LOSE + SIGN_SCORES[FORCED_LOSE_COMBINATIONS[attack]];
