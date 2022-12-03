@@ -9,13 +9,11 @@ const getBiggestCalorieSum = () => Math.max(...dataSet
 );
 
 // Part 2
-console.log(
-  dataSet
-    .split('\n\n')
-    .map((dirtyCalories) => dirtyCalories
-      .split('\n')
-      .reduce((sumCalories, currentCalories) => sumCalories += parseInt(currentCalories, 10), 0))
-    .sort((a, b) => a - b)
-    .splice(-3)
-    .reduce((sum, cur) => sum += cur, 0)
-);
+const getTop3Sum = () => dataSet
+  .split('\n\n')
+  .map((dirtyCalories) => dirtyCalories
+    .split('\n')
+    .reduce((sumCalories, currentCalories) => sumCalories += parseInt(currentCalories, 10), 0))
+  .sort((a, b) => a - b)
+  .splice(-3)
+  .reduce((sum, cur) => sum += cur, 0);
