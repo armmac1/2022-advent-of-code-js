@@ -1,1 +1,1 @@
-![Digrams for overlaping ranges](./overlaping-range-diagrams.svg))
+![Digrams for overlaping ranges](./overlaping-range-diagrams.svg)
