@@ -24,16 +24,34 @@ const stacks = crates
   )
   .map(stack => stack.filter(e => e !== '    '));;
 
-const moveAmountTo = (from, to, amount) => {
+const moveAmountToOneCrateAtTheTime = (from, to, amount) => {
   for (let i = 0; i < amount; i++) {
     to.push(from.pop());
   }
 };
 
-moves.split('\n').forEach(move => {
-  const [amount, from, to] = move.match(/\d+/g);
-  moveAmountTo(stacks[from - 1], stacks[to - 1], amount);
-});
 
+// WARNING: Answers mutates dataSet. Run separately
 //part1
-const answer = stacks.map(stack => stack.at(-1)).join('');
+const getPart1Answer = () => {
+  moves.split('\n').forEach(move => {
+    const [amount, from, to] = move.match(/\d+/g);
+    moveAmountToOneCrateAtTheTime(stacks[from - 1], stacks[to - 1], amount);
+  });
+
+  return stacks.map(stack => stack.at(-1)).join('');
+};
+
+//part2
+const moveAmountToMultipleCratesAtTheTime = (from, to, amount) => {
+  to.push(...from.splice(from.length - amount));
+};
+
+const getPart2Answer = () => {
+  moves.split('\n').forEach(move => {
+    const [amount, from, to] = move.match(/\d+/g);
+    moveAmountToMultipleCratesAtTheTime(stacks[from - 1], stacks[to - 1], amount);
+  });
+
+  return stacks.map(stack => stack.at(-1)).join('');
+};
