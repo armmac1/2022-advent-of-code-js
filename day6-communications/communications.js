@@ -14,8 +14,8 @@ const getCharCountBeforeMarker = () => {
 //part2
 const getCharCountBeforeMessage = () => {
   for (let i = 13; i < messageLength - 14; i++) {
-    const fourCharacters = [...dataSet.slice(i - 13, i + 1)];
-    if ([...new Set(fourCharacters)].length === 14) {
+    const fourteenCharacters = [...dataSet.slice(i - 13, i + 1)];
+    if ([...new Set(fourteenCharacters)].length === 14) {
       return i + 1;
     }
   }
