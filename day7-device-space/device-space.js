@@ -109,10 +109,30 @@ for (let i = 0; i < outputLineCount - 1; i++) {
   // is file? yes - add size to current directory
 
 }
-// const totalSumOfUnder100k = Object.values(currentDirectory2).filter(({ size }) => (size <= 100000)).reduce((sum, { size }) => sum + size, 0);
-// console.log(totalSumOfUnder100k);
 
-console.log(Object.keys(currentDirectory2));
-// console.log(currentDirectory2['/gwnwqcgq/hrj/dfdtszr/']);.
+// New approach
 
-// 1705869
+function addAdjacentNumbers(arr) {
+  const result = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    if (!isNaN(arr[i])) {
+      if (!isNaN(arr[i + 1])) {
+        arr[i] += arr[i + 1];
+        arr[i + 1] = undefined;
+      }
+
+      result.push(arr[i]);
+    }
+  }
+
+  return result;
+}
+
+const filteredOutputLines = outputLines.filter(line => line.startsWith('$ ls') || line.match(/^\d/));
+console.log(filteredOutputLines);
+const splitByListCommand = filteredOutputLines.map(line => line.match(/^\d/) ? parseInt(line.split(' ')[0]) : line);
+const arrayOfDirSizes = addAdjacentNumbers(splitByListCommand);
+
+// console.log(arrayOfDirSizes.filter(size => size <= 100000));
+// console.log(arrayOfDirSizes.filter(size => size <= 100000).reduce((sum, cur) => sum + cur, 0));
