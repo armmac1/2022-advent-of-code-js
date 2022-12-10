@@ -1,37 +1,56 @@
 import { dataSet } from './dataSet.js';
 
-const X = 0;
-const Y = 1;
-const headPosition = [0, 0];
-const lastHeadPosition = [0, 0];
-const tailPosition = [0, 0];
+const tailLength = 9;
+const rope = new Array(tailLength + 1).fill(null).map(() => ({ x: 0, y: 0 }));
 const uniqueTailPositions = new Set();
 
-const getDistance = () => {
-  const diffX = headPosition[X] - tailPosition[X];
-  const diffY = headPosition[Y] - tailPosition[Y];
+const isTopRight = (xDiff, yDiff) => (xDiff >= 1 && yDiff >= 1 && !(xDiff === 1 && yDiff === 1));
+const isTopLeft = (xDiff, yDiff) => ((xDiff <= -1 && yDiff >= 1 && !(xDiff === -1 && yDiff === 1)));
+const isBottomRight = (xDiff, yDiff) => ((xDiff >= 1 && yDiff <= -1 && !(xDiff === 1 && yDiff === -1)));
+const isBottomLeft = (xDiff, yDiff) => ((xDiff <= -1 && yDiff <= -1 && !(xDiff === -1 && yDiff === -1)));
+const isLeft = (xDiff) => xDiff === -2;
+const isTop = (yDiff) => yDiff === 2;
+const isRight = (xDiff) => xDiff === 2;
+const isBottom = (yDiff) => yDiff === -2;
 
-  return Math.sqrt(diffX * diffX + diffY * diffY);
-};
-
-const getPositionString = (position) => `x:${position[0]};Y:${position[1]}`;
-uniqueTailPositions.add(getPositionString(tailPosition));
+const getPositionString = (knot) => `x:${knot.x};Y:${knot.y}`;
+uniqueTailPositions.add(getPositionString(rope[0]));
 
 const moveHead = (direction, steps) => {
   for (let i = 0; i < steps; i++) {
-    lastHeadPosition[X] = headPosition[X];
-    lastHeadPosition[Y] = headPosition[Y];
+    if (direction === 'R') rope[0].x += 1;
+    if (direction === 'L') rope[0].x -= 1;
+    if (direction === 'U') rope[0].y += 1;
+    if (direction === 'D') rope[0].y -= 1;
 
-    if (direction === 'R') headPosition[X] += 1;
-    if (direction === 'L') headPosition[X] -= 1;
-    if (direction === 'U') headPosition[Y] += 1;
-    if (direction === 'D') headPosition[Y] -= 1;
+    for (let j = 0; j < tailLength; j++) {
+      const yDiff = rope[j].y - rope[j + 1].y;
+      const xDiff = rope[j].x - rope[j + 1].x;
 
-    if (getDistance() > 1.5) {
-      tailPosition[X] = lastHeadPosition[X];
-      tailPosition[Y] = lastHeadPosition[Y];
-      uniqueTailPositions.add(getPositionString(tailPosition));
-    };
+      if (isTopRight(xDiff, yDiff)) {
+        rope[j + 1].x++;
+        rope[j + 1].y++;
+      } else if (isTopLeft(xDiff, yDiff)) {
+        rope[j + 1].x--;
+        rope[j + 1].y++;
+      } else if (isBottomLeft(xDiff, yDiff)) {
+        rope[j + 1].x--;
+        rope[j + 1].y--;
+      } else if (isBottomRight(xDiff, yDiff)) {
+        rope[j + 1].x++;
+        rope[j + 1].y--;
+      } else if (isRight(xDiff)) {
+        rope[j + 1].x++;
+      } else if (isLeft(xDiff)) {
+        rope[j + 1].x--;
+      } else if (isTop(yDiff)) {
+        rope[j + 1].y++;
+      } else if (isBottom(yDiff)) {
+        rope[j + 1].y--;
+      };
+    }
+
+    uniqueTailPositions.add(getPositionString(rope[rope.length - 1]));
   }
 };
 
@@ -44,5 +63,5 @@ dataSet.split('\n').forEach((move) => {
   moveHead(direction, steps);
 });
 
-//part1
-const part1 = uniqueTailPositions.size;
+//part1 & part2
+//uniqueTailPositions.size;
